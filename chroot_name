@@ -1,0 +1,19 @@
+function do_chroot {
+  sudo mount -t proc /proc ${ROOTFS}/proc/
+  sudo mount --rbind --make-rslave /sys ${ROOTFS}/sys/
+  sudo mount --rbind --make-rslave /dev ${ROOTFS}/dev/
+  sudo mount --rbind --make-rslave /dev/pts ${ROOTFS}/dev/pts/
+  sudo chroot ${ROOTFS}
+  sudo umount ${ROOTFS}/proc/
+  sudo umount -R ${ROOTFS}/sys/
+  sudo umount -R ${ROOTFS}/dev/pts/
+  sudo umount -R ${ROOTFS}/dev/
+}
+
+if [ -n "$1" ]; then
+  export ROOTFS="/emuroot/$1"
+  if [ -d "$ROOTFS" ]; then
+    echo "switching to $ROOTFS rootfs"
+    do_chroot $ROOTFS
+  fi
+fi
