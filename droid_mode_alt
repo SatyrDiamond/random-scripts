@@ -1,0 +1,8 @@
+waydroid session stop
+weston --shell=kiosk-shell.so --width=1024 --height=600 & WESTON_PID=$!
+while [ ! -S "$XDG_RUNTIME_DIR/wayland-1" ]; do
+    sleep 0.5
+done
+WAYLAND_DISPLAY=wayland-1 waydroid show-full-ui &
+wait $WESTON_PID
+waydroid session stop
