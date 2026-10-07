@@ -1,0 +1,1 @@
+gamescope  -w 1920 -h 1080 --expose-wayland -- waydroid show-full-ui
